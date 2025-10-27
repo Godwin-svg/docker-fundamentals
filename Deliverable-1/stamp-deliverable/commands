@@ -1,0 +1,6 @@
+##############################################
+Command used and why
+##############################################
+=> FROM – selects a minimal Linux base image for the container.
+
+=> CMD – sets the default command to print a UTC timestamp when the container runs
