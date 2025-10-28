@@ -1,0 +1,75 @@
+####################################
+variable substitution
+####################################
+- $VAR or ${VAR} simply retrieves the value of a variable already stored in the shell’s environment.
+Example:
+APP_ENV=production
+echo $APP_ENV
+- ✅ Output → production
+
+So $APP_ENV means: “get the value stored in this variable.
+
+####################################
+command substitution
+####################################
+- $(whoami) or $(pwd)
+- $(...) is not for variables — it’s for running a command and replacing it with its output.
+
+Example:
+- echo $(whoami)
+✅ Output → your username (e.g., innocent)
+
+######################################################
+
+first, look closely at your line:
+ENTRYPOINT [ "starup.sh" ]
+
+
+🚫 This will NOT work as written, for two reasons:
+
+❌ (a) Typo in the script name
+
+You wrote starup.sh instead of startup.sh (missing “t”).
+If the actual file is named startup.sh, Docker won’t find starup.sh and will throw:
+
+exec: "starup.sh": stat starup.sh: no such file or directory
+
+❌ (b) No ./ before the script
+
+Even if the name were correct, you’d still need:
+
+ENTRYPOINT ["./startup.sh"]
+
+
+The ./ tells Docker to execute the script from the current working directory (/app).
+
+Otherwise, Docker will search only the system PATH (like /bin, /usr/bin), not /app.
+
+✅ Correct version:
+
+ENTRYPOINT ["./startup.sh"]
+
+################################################################################################
+- Permission chown -R newuser:newuser /app
+
+- hown
+
+Stands for “change owner”.
+
+Used to change the owner and group of files or directories in Linux.
+
+2️⃣ -R
+
+Stands for “recursive”.
+
+Applies the ownership change to the directory itself and everything inside it (all files and subdirectories).
+
+Without -R, only the top-level directory /app would be affected.
+
+3️⃣ newuser:newuser
+
+First newuser → sets the owner of the files.
+
+Second newuser → sets the group of the files.
+
+This ensures the user and their group have ownership permissions.

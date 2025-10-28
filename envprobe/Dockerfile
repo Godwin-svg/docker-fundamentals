@@ -1,6 +1,9 @@
 # Use  minimal base image
 FROM alpine:3.20 
 
+# Install essential tools (curl and wget)
+RUN apk add --no-cache curl wget bash
+
 # Create a non-root user
 RUN adduser -u 1000 -D newuser
 
@@ -19,8 +22,11 @@ RUN chmod +x startup.sh
 # Set environment variable
 ENV APP_ENV=dev
 
+# Expose port
+EXPOSE 8081
+
 # Switch to non-root user
 USER newuser
 
 # Launch the script
-ENTRYPOINT ["./startup.sh"]
+ENTRYPOINT ["./startup.sh", "8081"]
