@@ -1,0 +1,4 @@
+
+On Docker’s default bridge network, containers are separated and can’t 
+find each other by name since there’s no internal DNS setup. T
+hat’s why the envprobe container couldn’t connect to the miniweb container directly.

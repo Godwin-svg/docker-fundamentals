@@ -1,0 +1,3 @@
+On a user-defined network like mongo, Docker provides a built-in DNS that 
+lets containers find each other by name. This is why envprobe can now 
+reach miniweb, unlike on the default bridge where name resolution isn’t available.
