@@ -1,0 +1,7 @@
+# git checkout -b feat/docker-images-and-networking
+=> checkout - stwich branch
+=> -b create new branch
+
+note
+- git push --set-upstream origin feat/docker-images-and-networking
+

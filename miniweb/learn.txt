@@ -1,0 +1,90 @@
+######################################################
+What is Nginx?
+######################################################
+-  Nginx (pronounced engine-x) is a high-performance web server and reverse proxy server.
+-  It serves content like HTML, CSS, JavaScript, and static files to clients (browsers).
+-  It can also handle load balancing, caching, and act as a reverse proxy for backend services.
+
+######################################################
+What is a reverse proxy?
+######################################################
+- A reverse proxy is a server that sits between the client (browser) and one or more backend servers.
+=> It receives requests from the client first.
+=> Then it forwards those requests to the appropriate backend server.
+=> Finally, it sends the response back to the client.
+
+#######################################################################
+How it works (example with Nginx + FastAPI)
+#######################################################################
+
+Suppose you have:
+
+- Nginx → reverse proxy
+- FastAPI → backend server that runs your Python app
+
+Step-by-step flow:
+
+Client (browser)
+        |
+        v
+     Nginx (reverse proxy)
+        |
+        v
+FastAPI backend server
+        |
+        v
+     Nginx (reverse proxy)
+        |
+        v
+Client (browser)
+
+
+Client → opens browser and requests http://example.com/data
+
+Nginx → receives the request, checks rules (like URL path /data)
+
+Nginx → forwards the request to FastAPI backend running on some port (e.g., localhost:8000)
+
+FastAPI → processes the request, generates a response (JSON, HTML, etc.)
+
+Nginx → receives the response from FastAPI and sends it back to the client
+
+################################################
+What is FastAPI backend?
+################################################
+FastAPI is a Python framework for building APIs (backend services).
+It runs a web server (usually Uvicorn) and responds to requests.
+Example use: you have a website that shows a list of products. FastAPI could handle requests like /products and return JSON data.
+
+
+##################################################################
+How to fix health check reliably
+##################################################################
+
+Update your Dockerfile health check to include:
+
+HEALTHCHECK --start-period=5s --interval=10s --timeout=5s --retries=3 \
+  CMD wget -q --spider http://127.0.0.1:8080 || exit 1
+
+--start-period=5s → wait a few seconds before first check
+
+Use 127.0.0.1 instead of localhost to avoid IPv6 issues
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
